@@ -2,7 +2,13 @@ import { AuthRepository } from "./auth.repository.js";
 import { hash, compare } from "../../utils/HashAndCompare.js";
 
 export const AuthService = {
-  registerUser: async (name, email, password) => {
+  registerUser: async (name, email, password, confirmPassword) => {
+    if (password !== confirmPassword) {
+      const error = new Error("Password and Confirm Password must match");
+      error.cause = 400;
+      throw error;
+    }
+
     const lowerEmail = email.toLowerCase();
 
     const existingUser = await AuthRepository.findUserByEmail(lowerEmail);

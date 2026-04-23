@@ -5,12 +5,7 @@ import { ResponseFactory } from "../../utils/ResponseFactory.js";
 export const register = asyncHandler(async (req, res, next) => {
   const { name, email, password, confirmPassword } = req.body;
 
-  if (password !== confirmPassword) {
-    return next(new Error("Password and Confirm Password must match", { cause: 400 }));
-  }
-
-  const user = await AuthService.registerUser(name, email, password);
-
+  const user = await AuthService.registerUser(name, email, password, confirmPassword);
 
   return ResponseFactory.success(
     res,
