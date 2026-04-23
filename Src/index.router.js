@@ -1,9 +1,9 @@
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
-import swaggerSpec from "../utils/swagger.js";
-import { globalErrorHandling } from "../utils/errorHandling.js";
+import swaggerSpec from "./utils/swagger.js";
+import { globalErrorHandling } from "./utils/errorHandling.js";
 import connectionDB from "./DB/config/connection.js";
-import AuthRouter from "./modules/Auth/auth.router.js";
+import AuthRouter from "./modules/auth/auth.router.js";
 
 const bootstrap = async (app, express) => {
   await connectionDB();
