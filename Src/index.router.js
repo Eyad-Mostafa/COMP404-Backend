@@ -1,12 +1,10 @@
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
-import swaggerSpec from "../utils/swagger.js";
-import { globalErrorHandling } from "../utils/errorHandling.js";
-import connectionDB from "./DB/config/connection.js";
-import AuthRouter from "./modules/Auth/auth.router.js";
+import swaggerSpec from "./utils/swagger.js";
+import { globalErrorHandler } from "./utils/errorHandling.js";
+import AuthRouter from "./modules/auth/auth.router.js";
 
 const bootstrap = async (app, express) => {
-  await connectionDB();
 
   app.use(express.json());
   app.use(cors());
@@ -26,8 +24,7 @@ const bootstrap = async (app, express) => {
   app.all(/(.*)/, (req, res) => {
     res.status(404).json({ message: "Page not found" });
   });
-  app.use(globalErrorHandling);
-  await connectionDB();
+  app.use(globalErrorHandler);
 };
 
 export default bootstrap;
