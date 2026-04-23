@@ -29,6 +29,8 @@ const router = Router();
  *                 type: string
  *               password:
  *                 type: string
+ *               confirmPassword:
+ *                 type: string
  *     responses:
  *       201:
  *         description: User Registered Successfully
