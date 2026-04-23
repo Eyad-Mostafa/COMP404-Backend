@@ -7,21 +7,17 @@ const options = {
     info: {
       title: "Software Project",
       version: "1.0.0",
-      description: `API documentation for Software Project (Updated: ${new Date().toISOString()})`,
+      description: `API documentation for Software Project (Updated: ${new Date().toLocaleTimeString()})`,
     },
     servers: [
       {
-        url: "http://localhost:5000",
-        description: "Local server",
-      },
-      {
-        url: "",
+        url: "https://comp-404-backend.vercel.app",
         description: "Production server",
       },
       {
-        url: "",
-        description: "Alternative Production server",
-      },
+        url: "http://localhost:5000",
+        description: "Local server",
+      }
     ],
   },
   apis: [path.join(process.cwd(), "Src/modules/**/*.router.js")],
