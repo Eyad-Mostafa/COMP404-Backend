@@ -3,7 +3,10 @@ import { hash, compare } from "../../../../utils/HashAndCompare.js";
 import userModel from "../../../DB/models/user.model.js";
 
 export const register = asyncHandler(async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, confirmPassword } = req.body;
+  if (password !== confirmPassword) {
+    return next(new Error("Password and Confirm Password must match", { cause: 400 }));
+  }
 
   if (await userModel.findOne({ email: email.toLowerCase() })) {
     return next(new Error("Email is Already Exist", { cause: 409 }));
