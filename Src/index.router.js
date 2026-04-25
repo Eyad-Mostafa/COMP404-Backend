@@ -3,12 +3,14 @@ import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./utils/swagger.js";
 import { globalErrorHandler } from "./utils/errorHandling.js";
 import AuthRouter from "./modules/auth/auth.router.js";
+import ScoreRouter from "./modules/score/score.router.js";
 
 const bootstrap = async (app, express) => {
 
   app.use(express.json());
   app.use(cors());
   app.use("/auth", AuthRouter);
+  app.use("/score", ScoreRouter);
   app.use(
     "/api-docs",
     swaggerUi.serve,
