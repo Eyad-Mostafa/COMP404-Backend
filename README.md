@@ -1,4 +1,3 @@
-```markdown
 # COMP404-Backend
 This is the backend repository for the COMP 404 Software Engineering course project. It is built using a layered architecture (Controllers, Services, Repositories) and the Factory design pattern.
 
@@ -78,4 +77,3 @@ This project uses Swagger for API testing and documentation.
 
 Once the server is running locally, you can view the documentation and test the endpoints by navigating to:
 **`http://localhost:5000/api-docs`**
-```
