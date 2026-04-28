@@ -30,9 +30,22 @@ export const ScoreRepository = {
       where: {
         playerId_level: {
           playerId: playerId,
-        level: level,
+          level: level,
+        },
       },
-    },
-  });
-},
-};
+    });
+  },
+
+  getLeaderboard: async () => {
+    return await prisma.user.findMany({
+      select: {
+        name: true,
+        scores: {
+          select: {
+            score: true,
+          },
+        },
+      },
+    });
+  },
+};
