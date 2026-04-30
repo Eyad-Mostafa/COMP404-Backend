@@ -13,7 +13,7 @@ export const ScoreService = {
 
     const existingScoreRecord = await ScoreRepository.getLevelScore(playerId, level);
 
-    if (calculatedScore < existingScoreRecord.score) {
+    if (existingScoreRecord && calculatedScore < existingScoreRecord.score) {
       return null;
     }
 
@@ -53,4 +53,4 @@ export const ScoreService = {
 
     return leaderboard;
   },
-};
+};
