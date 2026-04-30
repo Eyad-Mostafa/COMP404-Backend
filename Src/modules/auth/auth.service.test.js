@@ -26,7 +26,6 @@ test('AuthService - registerUser success', async (t) => {
   assert.strictEqual(user.name, 'Ahmed');
   assert.strictEqual(user.email, 'test@test.com'); // lowercased
 
-  // password should be hashed (not plain)
   assert.ok(user.password);
   assert.notStrictEqual(user.password, '123456');
 });
