@@ -34,7 +34,7 @@ export const getScoreByPlayerId = asyncHandler(async (req, res, next) => {
 });
 
 export const getLeaderboard = asyncHandler(async (req, res, next) => {
-  const count = parseInt(req.body.count, 10) || 10;
+  const count = parseInt(req.query.count, 10) || 10;
 
   const leaderboard = await ScoreService.getLeaderboard(count);
 
@@ -44,4 +44,4 @@ export const getLeaderboard = asyncHandler(async (req, res, next) => {
     leaderboard,
     200
   );
-});
+});

@@ -61,23 +61,21 @@ router.get("/player/:playerId", scoreController.getScoreByPlayerId);
 /**
  * @swagger
  * /score/leaderboard:
- *   post:
+ *   get:
  *     summary: Get top players by total score
  *     tags: [Score]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               count:
- *                 type: integer
- *                 example: 10
+ *     parameters:
+ *       - in: query
+ *         name: count
+ *         schema:
+ *           type: integer
+ *         required: false
+ *         description: Number of top players to retrieve (defaults to 10 if not provided)
+ *         example: 10
  *     responses:
  *       200:
  *         description: Leaderboard Retrieved Successfully
  */
-router.post("/leaderboard", scoreController.getLeaderboard);
+router.get("/leaderboard", scoreController.getLeaderboard);
 
 export default router;
