@@ -1,14 +1,19 @@
 import { ScoreRepository } from "./score.repository.js";
+import { AppError } from "../../utils/AppError.js";
 
 export const ScoreService = {
   saveScore: async (playerId, level, gameScore, coins, minutesPlayed) => {
 
-    let calculatedScore = Math.floor((2 * coins) - (10 * minutesPlayed));
-
-    calculatedScore = Math.max(0, calculatedScore);
+    const calculatedScore = Math.max(
+      0,
+      Math.floor((2 * coins) - (10 * minutesPlayed))
+    );
 
     if (gameScore !== calculatedScore) {
-      throw new Error(`Invalid Score: Expected ${calculatedScore}, but game sent ${gameScore}`);
+      throw new AppError(
+        `Invalid Score: Expected ${calculatedScore}, but got ${gameScore}`,
+        400
+      );
     }
 
     const existingScoreRecord = await ScoreRepository.getLevelScore(playerId, level);
@@ -17,13 +22,11 @@ export const ScoreService = {
       return null;
     }
 
-    const savedScore = await ScoreRepository.upsertLevelScore(playerId, level, {
+    return await ScoreRepository.upsertLevelScore(playerId, level, {
       score: calculatedScore,
       coins,
-      minutesPlayed
+      minutesPlayed,
     });
-
-    return savedScore;
   },
 
   getScoreDetailsByPlayerId: async (playerId) => {
@@ -44,7 +47,7 @@ export const ScoreService = {
       .map((user) => {
         const totalScore = user.scores.reduce((sum, s) => sum + s.score, 0);
         return {
-          name: user.name,
+        name: user.name,
           score: totalScore,
         };
       })

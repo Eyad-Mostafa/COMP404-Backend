@@ -2,9 +2,7 @@ import { ResponseFactory } from "./ResponseFactory.js";
 
 export const asyncHandler = (fn) => {
   return (req, res, next) => {
-    fn(req, res, next).catch((error) => {
-      return next(error);
-    });
+    Promise.resolve(fn(req, res, next)).catch(next);
   };
 };
 
@@ -13,3 +11,4 @@ export const globalErrorHandler = (err, req, res, next) => {
 
   return ResponseFactory.error(res, err.message, statusCode);
 };
+

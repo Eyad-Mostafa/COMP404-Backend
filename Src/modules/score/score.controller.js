@@ -1,23 +1,56 @@
 import { asyncHandler } from "../../utils/errorHandling.js";
 import { ScoreService } from "./score.service.js";
 import { ResponseFactory } from "../../utils/ResponseFactory.js";
+import { AppError } from "../../utils/AppError.js";
+
+function isValidNumber(value) {
+  return typeof value === "number" && !Number.isNaN(value);
+}
 
 export const createScore = asyncHandler(async (req, res, next) => {
-  const playerId = parseInt(req.body.playerId, 10);
-  const level = parseInt(req.body.level, 10);
-  const gameScore = parseInt(req.body.score, 10);
-  const coins = parseInt(req.body.coins, 10);
-  const minutesPlayed = parseFloat(req.body.minutesPlayed);
+  const playerId = Number(req.body.playerId);
+  const level = Number(req.body.level);
+  const gameScore = Number(req.body.score);
+  const coins = Number(req.body.coins);
+  const minutesPlayed = Number(req.body.minutesPlayed);
+
+  if (
+    !isValidNumber(playerId) ||
+    !isValidNumber(level) ||
+    !isValidNumber(gameScore) ||
+    !isValidNumber(coins) ||
+    !isValidNumber(minutesPlayed)
+  ) {
+    throw new AppError("Invalid input: all fields must be valid numbers", 400);
+  }
+
+  if (playerId <= 0 || level <= 0) {
+    throw new AppError("playerId and level must be positive numbers", 400);
+  }
 
   const newScore = await ScoreService.saveScore(
-    playerId, level, gameScore, coins, minutesPlayed
+    playerId,
+    level,
+    gameScore,
+    coins,
+    minutesPlayed
   );
 
   if (newScore === null) {
-    return ResponseFactory.success(res, "Existing score is higher. No update made.", null, 200);
+    return ResponseFactory.success(
+      res,
+      "Existing score is higher. No update made.",
+      null,
+      200
+    );
   }
 
-  return ResponseFactory.success(res, "Score Saved Successfully", newScore, 200);
+  return ResponseFactory.success(
+    res,
+    "Score Saved Successfully",
+    newScore,
+    200
+  );
 });
 
 export const getScoreByPlayerId = asyncHandler(async (req, res, next) => {

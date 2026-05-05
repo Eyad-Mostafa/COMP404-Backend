@@ -7,6 +7,8 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
+app.use(errorMiddleware);
+
 await bootstrap(app, express);
 
 app.listen(port, "0.0.0.0", () => {
