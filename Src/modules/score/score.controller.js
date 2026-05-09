@@ -97,7 +97,13 @@ export const getScoreByPlayerId = asyncHandler(async (req, res, next) => {
 });
 
 export const getLeaderboard = asyncHandler(async (req, res, next) => {
-  const count = parseInt(req.query.count, 10) || 10;
+  
+const parsedCount = parseInt(req.query.count, 10);
+
+const count =
+  Number.isNaN(parsedCount) || parsedCount <= 0
+    ? 10
+    : parsedCount;
 
   const leaderboard = await ScoreService.getLeaderboard(count);
 
